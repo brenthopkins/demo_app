@@ -1,5 +1,6 @@
 package leetcode;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class AddTwoNumbersTest {
@@ -13,46 +14,31 @@ public class AddTwoNumbersTest {
 	 *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 	 * }
 	 */
-
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-    	int target1 = 0;
-    	int target2 = 0;
-    	int mult = 1;
-    	LinkedList<Integer> firstInt = new LinkedList<>();
-    	LinkedList<Integer> secondInt = new LinkedList<>();
-    	ListNode check = new ListNode();
-		target1 += l1.val * mult;
-		mult *= 10;
-    	check = l1.next;
-    	firstInt.add(l1.val);
-    	while (check != null) {
-        	firstInt.add(check.val);
-    		target1 += check.val * mult;
-    		mult *= 10;
-    		check = check.next;
-    	}
-    	System.out.println(firstInt.toString());
-    	System.out.println(target1);
-
-    	mult = 1;
-		target2 += l2.val * mult;
-		mult *= 10;
-    	check = l2.next;
-    	secondInt.add(l2.val);
-    	while (check != null) {
-    		secondInt.add(check.val);
-    		target2 += check.val * mult;
-    		mult *= 10;
-    		check = check.next;
-    	}	
-    	System.out.println(secondInt.toString());
-    	System.out.println(target2);
-
-    	ListNode l3 = new ListNode(target1 + target2);
-	    		    	
-		return l3;	        
+	    ListNode assemble = new ListNode(-1);
+	    ListNode result = assemble;
+	    int target = 0;
+	    while(l1 != null || l2 != null) {
+	    	target = target/10;
+	        if(l1 != null) {
+	        	target = target + l1.val;
+	            l1 = l1.next;
+	        }
+	        if(l2 != null) {
+	        	target = target + l2.val;
+	            l2 = l2.next;
+	        }
+	        assemble.next = new ListNode(target%10);
+	        assemble = assemble.next;
+	    }
+	    if(target >=10){
+	    	assemble.next = new ListNode(1);
+	    }
+	    
+	    return result.next;
 	}
-
+	
+ 
 	public static void main(String[] args) {
 		ListNode first1 = new ListNode(3);
 		ListNode first2 = new ListNode(4, first1);
@@ -61,12 +47,12 @@ public class AddTwoNumbersTest {
 		ListNode second2 = new ListNode(6, second1);
 		ListNode second = new ListNode(5,second2);
 		ListNode result = addTwoNumbers(first, second);
-		System.out.println(result.val);
+		System.out.println(result);
 	
 		first = new ListNode(0);
 		second = new ListNode(0);
 		result = addTwoNumbers(first, second);
-		System.out.println(result.val);
+		System.out.println(result);
 		
 		first = new ListNode(9);
 		first = new ListNode(9, first);
@@ -80,7 +66,7 @@ public class AddTwoNumbersTest {
 		second = new ListNode(9, second);
 		second = new ListNode(9, second);
 		result = addTwoNumbers(first, second);
-		System.out.println(result.val);
+		System.out.println(result);
 	}
 }
 
